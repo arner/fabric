@@ -7,6 +7,7 @@ VAGRANTIMAGE=packer_virtualbox-iso_virtualbox.box
 DOCKER_BASE_x86_64=ubuntu:trusty
 DOCKER_BASE_s390x=s390x/ubuntu:xenial
 DOCKER_BASE_ppc64le=ppc64le/ubuntu:xenial
+DOCKER_BASE_armv7l=armv7/armhf-ubuntu:xenial
 
 DOCKER_BASE=$(DOCKER_BASE_$(ARCH))
 

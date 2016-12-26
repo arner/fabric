@@ -57,9 +57,13 @@ then
    mv go $GOROOT
    chmod 775 $GOROOT
    rm go$GO_VER.linux-${ARCH}.tar.gz
+elif [ x$MACHINE = xarmv7l ]
+then
+   apt-get install --yes golang
+   export GOROOT="/usr/lib/go"
 else
   echo "TODO: Add $MACHINE support"
-  exit
+  exit 1
 fi
 
 PATH=$GOROOT/bin:$GOPATH/bin:$PATH
@@ -77,6 +81,9 @@ if [ x$MACHINE = xs390x ]
 then
     apt-get install --yes nodejs
 elif [ x$MACHINE = xppc64le ]
+then
+    apt-get install --yes nodejs
+elif [ x$MACHINE = xarmv7l ]
 then
     apt-get install --yes nodejs
 else
@@ -144,6 +151,11 @@ then
     echo There were some bugs in 4.1 for z/p, dev stream has the fix, living dangereously, fixing in place.
     echo Below changes are not required for newer releases of rocksdb.
     sed -ibak 's/ifneq ($(MACHINE),ppc64)/ifeq (,$(findstring ppc64,$(MACHINE)))/g' Makefile
+elif [ x$MACHINE = xarmv7l ]
+then
+    echo There were some bugs in 4.1 for arm, dev stream has the fix, living dangereously, fixing in place.
+    echo Below changes are not required for newer releases of rocksdb.
+    sed -ibak 's/ifneq ($(MACHINE),ppc64)/ifneq ($(MACHINE),armv7l)/g' Makefile
 fi
 
 PORTABLE=1 make shared_lib
